@@ -22,5 +22,21 @@
 <body>
 <div class="ld"><div><img src="icon-192.png" alt="">Đang mở Chỉ số sức khỏe MĐ19…</div></div>
 <iframe src="https://script.google.com/macros/s/AKfycbwnV2e-6t6fkqtF-Q1X90tvL1bMysSDkQt6Ptow2V-4Y7kI9yYPN7NAfu7RRnMAi0Ro_g/exec" allow="clipboard-read; clipboard-write" title="Miền Đông 19"></iframe>
+<script>
+// Giữ đăng nhập: app bên trong khung gửi mã phiên ra đây lưu (tên miền này không bị trình duyệt xóa như khung Google)
+(function(){
+  var K = 'md19_tokens', ok = function(o){ return /^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/.test(o); };
+  function load(){ try{ return JSON.parse(localStorage.getItem(K) || '{}'); }catch(e){ return {}; } }
+  window.addEventListener('message', function(e){
+    if (!ok(e.origin) || !e.data || !e.data.md19) return;
+    var d = e.data, m = load();
+    if (d.md19 === 'get'){ e.source.postMessage({ md19: 'tokens', v: m }, e.origin); return; }
+    if (d.md19 === 'set' && typeof d.k === 'string' && /^[\w-]{1,80}$/.test(d.k)){
+      if (d.v) m[d.k] = String(d.v).slice(0, 100); else delete m[d.k];
+      try{ localStorage.setItem(K, JSON.stringify(m)); }catch(x){}
+    }
+  });
+})();
+</script>
 </body>
 </html>

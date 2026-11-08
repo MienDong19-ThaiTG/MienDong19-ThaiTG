@@ -38,5 +38,15 @@
   });
 })();
 </script>
+<script>
+// Mất mạng: báo rõ thay vì màn hình trắng, có mạng lại thì tự mở lại app (08/11/2026)
+(function(){
+  var f = document.querySelector('iframe'), ld = document.querySelector('.ld div'), off = false;
+  function down(){ off = true; ld.parentNode.style.zIndex = 2; ld.parentNode.style.background = '#eaf6f3'; ld.innerHTML = '<img src="icon-192.png" alt="">📴 Điện thoại đang mất mạng<br><small style="font-weight:500">App sẽ tự mở lại khi có mạng</small>'; }
+  function up(){ if (!off) return; off = false; ld.parentNode.style.zIndex = ''; ld.parentNode.style.background = ''; ld.innerHTML = '<img src="icon-192.png" alt="">Đang mở Chỉ số sức khỏe MĐ19…'; f.src = f.src; }
+  window.addEventListener('offline', down); window.addEventListener('online', up);
+  if (!navigator.onLine) down();
+})();
+</script>
 </body>
 </html>
